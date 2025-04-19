@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { useUser } from "../context/UserContext";
 import { useFetching } from "../hooks/useFetching";
 import FilmItem from "./FilmItem";
 import { PuffLoader } from "react-spinners";
@@ -7,6 +6,7 @@ import FilmService from '../api/FilmService';
 import Modal from "./Modal";
 import AddFilmModal from "./AddFilmModal";
 import RandomiseModal from "./RandomiseModal";
+import { useSelector } from "react-redux";
 
 // const fetchedFilmList = [
 //   { id: 1, title: 'matrix 1' },
@@ -14,10 +14,8 @@ import RandomiseModal from "./RandomiseModal";
 //   { id: 3, title: 'matrix 3. The best' },
 // ];
 
-
 function FilmsDashboard() {
-
-  const { user } = useUser();
+  const user = useSelector(state => state.user.userData);
   const [filmList, setFilmList] = useState([]);
   const [modalContent, setModalContent] = useState(null);
   const modalref = useRef();

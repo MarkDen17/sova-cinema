@@ -5,21 +5,18 @@ import FilmsDashboard from './components/FilmsDashboard ';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import LoginForm from './components/LoginForm';
-import { useUser } from './context/UserContext';
 import { useFetching } from './hooks/useFetching';
+import { useSelector, useDispatch } from 'react-redux'
+import { setUser } from './features/user/userSlice';
 
 function App() {
-  const { user, setUser } = useUser();
+  const user = useSelector(state => state.user.userData);
+  const dispatch = useDispatch();
   const [fetchCheckAuth, isCheckLoading] = useFetching(async (signal) => {
     const responce = await UserService.checkAuth(signal);
-    const data = responce.data;
-    if (data?.auth) {
-      setUser({
-        isAuth: data.auth,
-        id: data.id,
-        name: data.username,
-        role: data.role
-      })
+    if (responce.success === true) {
+      const user = responce.data;
+      dispatch(setUser(user));
     }
   })
 

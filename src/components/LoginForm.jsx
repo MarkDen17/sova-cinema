@@ -1,25 +1,22 @@
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
 import { PuffLoader } from "react-spinners";
 import UserServise from "../api/UserService";
-import { useUser } from "../context/UserContext";
+import { setUser } from '../features/user/userSlice';
 import { useFetching } from "../hooks/useFetching";
 import { isValidPassword, isValidUsername } from "../utils/functions";
 
 function LoginForm({ isCheckLoading }) {
-
-  const { setUser } = useUser();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
+  const dispatch = useDispatch();
   const [fetchLogin, fetchLoading, fetchingError] = useFetching(async () => {
     const responce = await UserServise.login(username, password);
-    const user = responce.data;
-    setUser({
-      isAuth: true,
-      id: user.id,
-      name: user.username,
-      role: user.role
-    })
+    if (responce.success === true) {
+      const user = responce.data;
+      dispatch(setUser({ ...user, isAuth: true }))
+    }
   })
 
   const isLoading = fetchLoading || isCheckLoading;
