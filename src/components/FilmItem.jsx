@@ -6,8 +6,8 @@ function FilmItem({ film, filmList, setFilmList, index }) {
 
   const user = useSelector(state => state.user.userData);
   const [fetchDeleteFilm, isDeleteLoading, error] = useFetching(async () => {
-    const responce = await FilmService.deleteFilm(film.id);
-    if (responce.status === 204) {
+    const response = await FilmService.deleteFilm(film.id);
+    if (response.status === 204) {
       setFilmList([...filmList.filter(item => item.id !== film.id)]);
     }
   })

@@ -10,8 +10,8 @@ function randomiseItem(arr) {
 function RandomiseModal({ films, setFilmList, closeModal }) {
   const [randomisedFilm, setRandomisedFilm] = useState(null);
   const [fetchDeleteFilm, isDeleteLoading, error] = useFetching(async () => {
-    const responce = await FilmService.deleteFilm(randomisedFilm.id);
-    if (responce.ok === true) {
+    const response = await FilmService.deleteFilm(randomisedFilm.id);
+    if (response.ok === true) {
       setFilmList([...films.filter(item => item.id !== randomisedFilm.id)]);
     }
   })

@@ -13,9 +13,9 @@ function App() {
   const user = useSelector(state => state.user.userData);
   const dispatch = useDispatch();
   const [fetchCheckAuth, isCheckLoading] = useFetching(async (signal) => {
-    const responce = await UserService.checkAuth(signal);
-    if (responce.success === true) {
-      const user = responce.data;
+    const response = await UserService.checkAuth(signal);
+    if (response.success === true) {
+      const user = response.data;
       dispatch(setUser(user));
     }
   })

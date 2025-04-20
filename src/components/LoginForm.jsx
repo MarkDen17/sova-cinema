@@ -12,9 +12,9 @@ function LoginForm({ isCheckLoading }) {
   const [errorText, setErrorText] = useState("");
   const dispatch = useDispatch();
   const [fetchLogin, fetchLoading, fetchingError] = useFetching(async () => {
-    const responce = await UserServise.login(username, password);
-    if (responce.success === true) {
-      const user = responce.data;
+    const response = await UserServise.login(username, password);
+    if (response.success === true) {
+      const user = response.data;
       dispatch(setUser({ ...user, isAuth: true }))
     }
   })

@@ -5,11 +5,11 @@ import FilmService from "../api/FilmService";
 function AddFilmModal({ closeModal, films, setFilmList }) {
   const [title, setTitle] = useState("");
   const [addFilm, isAddFilmLoading, addFilmError] = useFetching(async () => {
-    const responce = await FilmService.postFilm(title);
-    if (responce.success === true) {
+    const response = await FilmService.postFilm(title);
+    if (response.success === true) {
       const newFilm = {
-        id: responce.data.id,
-        title: responce.data.title,
+        id: response.data.id,
+        title: response.data.title,
       }
       setFilmList([...films, newFilm]);
       closeModal()

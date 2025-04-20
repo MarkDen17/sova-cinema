@@ -20,8 +20,8 @@ function FilmsDashboard() {
   const [modalContent, setModalContent] = useState(null);
   const modalref = useRef();
   const [fetchFilms, isFilmsLoading, filmsLoadingError] = useFetching(async (signal) => {
-    const responce = await FilmService.getAllFilms(signal);
-    const data = responce.data;
+    const response = await FilmService.getAllFilms(signal);
+    const data = response.data;
     setFilmList(data);
   })
 
