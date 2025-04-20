@@ -1,3 +1,6 @@
+@layer base, global, theme, components, utilities;
+
+
 @import "tailwindcss";
 @import "./vars.css";
 @import "./styles.css";

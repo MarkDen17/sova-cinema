@@ -1,29 +1,21 @@
-import { useRef, useState, useEffect } from "react";
-import { useUser } from "../context/UserContext";
-import { useFetching } from "../hooks/useFetching";
-import FilmItem from "./FilmItem";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
 import FilmService from '../api/FilmService';
-import Modal from "./Modal";
+import { useFetching } from "../hooks/useFetching";
 import AddFilmModal from "./AddFilmModal";
+import FilmItem from "./FilmItem";
+import Modal from "./Modal";
 import RandomiseModal from "./RandomiseModal";
 
-// const fetchedFilmList = [
-//   { id: 1, title: 'matrix 1' },
-//   { id: 2, title: 'matrix 2' },
-//   { id: 3, title: 'matrix 3. The best' },
-// ];
-
-
 function FilmsDashboard() {
-
-  const { user } = useUser();
+  const user = useSelector(state => state.user.userData);
   const [filmList, setFilmList] = useState([]);
   const [modalContent, setModalContent] = useState(null);
   const modalref = useRef();
   const [fetchFilms, isFilmsLoading, filmsLoadingError] = useFetching(async (signal) => {
-    const responce = await FilmService.getAllFilms(signal);
-    const data = responce.data;
+    const response = await FilmService.getAllFilms(signal);
+    const data = response.data;
     setFilmList(data);
   })
 
