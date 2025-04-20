@@ -17,10 +17,11 @@ function RandomiseModal({ films, setFilmList, closeModal }) {
   })
 
   function randomiseFilm() {
+    if (films.length === 0) return;
     let newFilm = randomiseItem(films);
     if (films.length > 1) {
       while (newFilm === randomisedFilm) {
-        randomiseItem(films);
+        newFilm = randomiseItem(films);
       }
     }
     setRandomisedFilm(newFilm);
