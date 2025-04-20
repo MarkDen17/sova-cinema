@@ -1,12 +1,12 @@
-import { useRef, useState, useEffect } from "react";
-import { useFetching } from "../hooks/useFetching";
-import FilmItem from "./FilmItem";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
 import FilmService from '../api/FilmService';
-import Modal from "./Modal";
+import { useFetching } from "../hooks/useFetching";
 import AddFilmModal from "./AddFilmModal";
+import FilmItem from "./FilmItem";
+import Modal from "./Modal";
 import RandomiseModal from "./RandomiseModal";
-import { useSelector } from "react-redux";
 
 function FilmsDashboard() {
   const user = useSelector(state => state.user.userData);

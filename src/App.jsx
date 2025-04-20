@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import CookieConsent from "react-cookie-consent";
+import { useDispatch, useSelector } from 'react-redux';
 import UserService from './api/UserService';
 import FilmsDashboard from './components/FilmsDashboard ';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import LoginForm from './components/LoginForm';
-import { useFetching } from './hooks/useFetching';
-import { useSelector, useDispatch } from 'react-redux'
 import { setUser } from './features/user/userSlice';
+import { useFetching } from './hooks/useFetching';
 
 function App() {
   const user = useSelector(state => state.user.userData);

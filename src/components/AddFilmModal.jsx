@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useFetching } from "../hooks/useFetching";
+import { useEffect, useState } from "react";
 import FilmService from "../api/FilmService";
+import { useFetching } from "../hooks/useFetching";
 
 function AddFilmModal({ closeModal, films, setFilmList }) {
   const [title, setTitle] = useState("");

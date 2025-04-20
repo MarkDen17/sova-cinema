@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import hatImage from '@/assets/images/hat-min.png';
+import { useEffect, useState } from "react";
 import FilmService from "../api/FilmService";
 import { useFetching } from "../hooks/useFetching";
-import hatImage from '@/assets/images/hat-min.png';
 
 function randomiseItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
