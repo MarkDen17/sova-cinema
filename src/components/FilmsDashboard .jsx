@@ -8,12 +8,6 @@ import AddFilmModal from "./AddFilmModal";
 import RandomiseModal from "./RandomiseModal";
 import { useSelector } from "react-redux";
 
-// const fetchedFilmList = [
-//   { id: 1, title: 'matrix 1' },
-//   { id: 2, title: 'matrix 2' },
-//   { id: 3, title: 'matrix 3. The best' },
-// ];
-
 function FilmsDashboard() {
   const user = useSelector(state => state.user.userData);
   const [filmList, setFilmList] = useState([]);
