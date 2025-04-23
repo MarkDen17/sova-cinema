@@ -1,13 +1,13 @@
-import { useUser } from "../context/UserContext";
+import { useSelector } from "react-redux";
 import { useFetching } from "../hooks/useFetching";
 import FilmService from "../api/FilmService";
 
 function FilmItem({ film, filmList, setFilmList, index }) {
 
-  const { user } = useUser();
+  const user = useSelector(state => state.user.userData);
   const [fetchDeleteFilm, isDeleteLoading, error] = useFetching(async () => {
-    const responce = await FilmService.deleteFilm(film.id);
-    if (responce.status === 204) {
+    const response = await FilmService.deleteFilm(film.id);
+    if (response.status === 204) {
       setFilmList([...filmList.filter(item => item.id !== film.id)]);
     }
   })

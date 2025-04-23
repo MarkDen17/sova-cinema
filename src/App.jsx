@@ -1,25 +1,22 @@
 import { useEffect } from 'react';
 import CookieConsent from "react-cookie-consent";
+import { useDispatch, useSelector } from 'react-redux';
 import UserService from './api/UserService';
 import FilmsDashboard from './components/FilmsDashboard ';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import LoginForm from './components/LoginForm';
-import { useUser } from './context/UserContext';
+import { setUser } from './features/user/userSlice';
 import { useFetching } from './hooks/useFetching';
 
 function App() {
-  const { user, setUser } = useUser();
+  const user = useSelector(state => state.user.userData);
+  const dispatch = useDispatch();
   const [fetchCheckAuth, isCheckLoading] = useFetching(async (signal) => {
-    const responce = await UserService.checkAuth(signal);
-    const data = responce.data;
-    if (data?.auth) {
-      setUser({
-        isAuth: data.auth,
-        id: data.id,
-        name: data.username,
-        role: data.role
-      })
+    const response = await UserService.checkAuth(signal);
+    if (response.success === true) {
+      const user = response.data;
+      dispatch(setUser(user));
     }
   })
 

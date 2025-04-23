@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import hatImage from '@/assets/images/hat-min.png';
+import { useEffect, useState } from "react";
 import FilmService from "../api/FilmService";
 import { useFetching } from "../hooks/useFetching";
-import hatImage from '@/assets/images/hat-min.png';
 
 function randomiseItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -10,17 +10,18 @@ function randomiseItem(arr) {
 function RandomiseModal({ films, setFilmList, closeModal }) {
   const [randomisedFilm, setRandomisedFilm] = useState(null);
   const [fetchDeleteFilm, isDeleteLoading, error] = useFetching(async () => {
-    const responce = await FilmService.deleteFilm(randomisedFilm.id);
-    if (responce.ok === true) {
+    const response = await FilmService.deleteFilm(randomisedFilm.id);
+    if (response.ok === true) {
       setFilmList([...films.filter(item => item.id !== randomisedFilm.id)]);
     }
   })
 
   function randomiseFilm() {
+    if (films.length === 0) return;
     let newFilm = randomiseItem(films);
     if (films.length > 1) {
       while (newFilm === randomisedFilm) {
-        randomiseItem(films);
+        newFilm = randomiseItem(films);
       }
     }
     setRandomisedFilm(newFilm);
