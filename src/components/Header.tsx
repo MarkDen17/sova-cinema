@@ -1,16 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
 import UserService from "../api/UserService";
-import { initialUserData, setUser } from "../features/user/userSlice";
+import { initialUser, selectUser, setUser } from "../features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useFetching } from "../hooks/useFetching";
 
 function Header() {
-  const user = useSelector(state => state.user.userData);
-  const dispatch = useDispatch();
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
   const [fetchLogout, isLoading] = useFetching(async () => {
     const response = await UserService.logout();
     if (response.success === true) {
-      dispatch(setUser(initialUserData))
-
+      dispatch(setUser(initialUser))
     } else {
       throw new Error("Logout failed")
     }

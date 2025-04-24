@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import FilmService from "../api/FilmService";
 import { useFetching } from "../hooks/useFetching";
+import { Film } from "./FilmsDashboard";
 
-function AddFilmModal({ closeModal, films, setFilmList }) {
+interface AddFilmModalProps {
+  films: Film[],
+  setFilmList: React.Dispatch<React.SetStateAction<Film[]>>,
+  closeModal: () => void,
+}
+
+function AddFilmModal({ closeModal, films, setFilmList }: AddFilmModalProps) {
   const [title, setTitle] = useState("");
   const [addFilm, isAddFilmLoading, addFilmError] = useFetching(async () => {
     const response = await FilmService.postFilm(title);
@@ -17,7 +24,7 @@ function AddFilmModal({ closeModal, films, setFilmList }) {
   })
 
   useEffect(() => {
-    const removeScrollLock = (event) => {
+    const removeScrollLock = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         closeModal();
       }
@@ -28,7 +35,7 @@ function AddFilmModal({ closeModal, films, setFilmList }) {
     }
   }, [])
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await addFilm();
   }

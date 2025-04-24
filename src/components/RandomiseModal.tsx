@@ -2,16 +2,24 @@ import hatImage from '@/assets/images/hat-min.png';
 import { useEffect, useState } from "react";
 import FilmService from "../api/FilmService";
 import { useFetching } from "../hooks/useFetching";
+import { Film } from './FilmsDashboard';
 
-function randomiseItem(arr) {
+function randomiseItem<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function RandomiseModal({ films, setFilmList, closeModal }) {
-  const [randomisedFilm, setRandomisedFilm] = useState(null);
+interface RandomiseModalProps {
+  films: Film[],
+  setFilmList: React.Dispatch<React.SetStateAction<Film[]>>,
+  closeModal: () => void,
+}
+
+function RandomiseModal({ films, setFilmList, closeModal }: RandomiseModalProps) {
+  const [randomisedFilm, setRandomisedFilm] = useState<Film | null>(null);
   const [fetchDeleteFilm, isDeleteLoading, error] = useFetching(async () => {
+    if (randomisedFilm === null) return;
     const response = await FilmService.deleteFilm(randomisedFilm.id);
-    if (response.ok === true) {
+    if (response && response.ok === true) {
       setFilmList([...films.filter(item => item.id !== randomisedFilm.id)]);
     }
   })
@@ -33,7 +41,7 @@ function RandomiseModal({ films, setFilmList, closeModal }) {
   }
 
   useEffect(() => {
-    const removeScrollLock = (event) => {
+    const removeScrollLock = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         closeModal();
       }
