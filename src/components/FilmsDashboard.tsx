@@ -1,19 +1,25 @@
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import FilmService from '../api/FilmService';
+import { selectUser } from "../features/user/userSlice";
+import { useAppSelector } from "../hooks/hooks";
 import { useFetching } from "../hooks/useFetching";
 import AddFilmModal from "./AddFilmModal";
 import FilmItem from "./FilmItem";
 import Modal from "./Modal";
 import RandomiseModal from "./RandomiseModal";
 
+export interface Film {
+  id: number,
+  title: string,
+}
+
 function FilmsDashboard() {
-  const user = useSelector(state => state.user.userData);
-  const [filmList, setFilmList] = useState([]);
-  const [modalContent, setModalContent] = useState(null);
-  const modalref = useRef();
-  const [fetchFilms, isFilmsLoading, filmsLoadingError] = useFetching(async (signal) => {
+  const user = useAppSelector(selectUser);
+  const [filmList, setFilmList] = useState<Film[] | []>([]);
+  const [modalContent, setModalContent] = useState<ReactElement | null>(null);
+  const modalref = useRef<HTMLDialogElement | null>(null);
+  const [fetchFilms, isFilmsLoading, filmsLoadingError] = useFetching(async (signal: AbortSignal) => {
     const response = await FilmService.getAllFilms(signal);
     const data = response.data;
     setFilmList(data);
@@ -35,19 +41,19 @@ function FilmsDashboard() {
   function closeModal() {
     setModalContent(null);
     document.documentElement.classList.remove('scroll-lock');
-    modalref.current.close();
+    modalref.current?.close();
   }
 
   function openAddFilmModal() {
     setModalContent(<AddFilmModal films={filmList} setFilmList={setFilmList} closeModal={closeModal}></AddFilmModal>);
     document.documentElement.classList.add('scroll-lock');
-    modalref.current.showModal();
+    modalref.current?.showModal();
   }
 
   function openRandomiseFilmModal() {
     setModalContent(<RandomiseModal films={filmList} setFilmList={setFilmList} closeModal={closeModal}></RandomiseModal>);
     document.documentElement.classList.add('scroll-lock');
-    modalref.current.showModal();
+    modalref.current?.showModal();
   }
 
   return (

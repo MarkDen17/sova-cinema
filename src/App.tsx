@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import CookieConsent from "react-cookie-consent";
-import { useDispatch, useSelector } from 'react-redux';
-import UserService from './api/UserService';
-import FilmsDashboard from './components/FilmsDashboard ';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import LoginForm from './components/LoginForm';
-import { setUser } from './features/user/userSlice';
-import { useFetching } from './hooks/useFetching';
+import UserService from './api/UserService.ts';
+import FilmsDashboard from './components/FilmsDashboard.tsx';
+import Footer from './components/Footer.tsx';
+import Header from './components/Header.tsx';
+import LoginForm from './components/LoginForm.tsx';
+import { selectUser, setUser } from './features/user/userSlice.ts';
+import { useAppDispatch, useAppSelector } from './hooks/hooks.ts';
+import { useFetching } from './hooks/useFetching.ts';
 
 function App() {
-  const user = useSelector(state => state.user.userData);
-  const dispatch = useDispatch();
-  const [fetchCheckAuth, isCheckLoading] = useFetching(async (signal) => {
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch()
+  const [fetchCheckAuth, isCheckLoading] = useFetching(async (signal: AbortSignal) => {
     const response = await UserService.checkAuth(signal);
     if (response.success === true) {
       const user = response.data;

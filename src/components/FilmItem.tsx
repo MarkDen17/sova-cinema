@@ -1,13 +1,22 @@
-import { useSelector } from "react-redux";
-import { useFetching } from "../hooks/useFetching";
 import FilmService from "../api/FilmService";
+import { selectUser } from "../features/user/userSlice";
+import { useAppSelector } from "../hooks/hooks";
+import { useFetching } from "../hooks/useFetching";
+import { Film } from "./FilmsDashboard";
 
-function FilmItem({ film, filmList, setFilmList, index }) {
+interface FilmItemProps {
+  film: Film,
+  filmList: Film[],
+  setFilmList: React.Dispatch<React.SetStateAction<Film[] | []>>,
+  index: number,
+}
 
-  const user = useSelector(state => state.user.userData);
+function FilmItem({ film, filmList, setFilmList, index }: FilmItemProps) {
+
+  const user = useAppSelector(selectUser);
   const [fetchDeleteFilm, isDeleteLoading, error] = useFetching(async () => {
     const response = await FilmService.deleteFilm(film.id);
-    if (response.status === 204) {
+    if (response?.status === 204) {
       setFilmList([...filmList.filter(item => item.id !== film.id)]);
     }
   })

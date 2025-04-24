@@ -1,8 +1,7 @@
 import { FILMS_URL } from "../utils/constansts";
 
 export default class FilmService {
-  static async getAllFilms(signal) {
-
+  static async getAllFilms(signal: AbortSignal) {
     const responce = await fetch(FILMS_URL, {
       method: 'GET',
       credentials: 'include',
@@ -18,7 +17,7 @@ export default class FilmService {
     }
   }
 
-  static async postFilm(filmTitle) {
+  static async postFilm(filmTitle: string) {
     const json = JSON.stringify({ title: filmTitle })
 
     const responce = await fetch(FILMS_URL, {
@@ -36,7 +35,7 @@ export default class FilmService {
     }
   }
 
-  static async deleteFilm(filmId) {
+  static async deleteFilm(filmId: number) {
     const data = JSON.stringify({ id: filmId })
     const responce = await fetch(FILMS_URL, {
       method: 'DELETE',

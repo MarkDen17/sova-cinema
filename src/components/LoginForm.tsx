@@ -1,21 +1,25 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { PuffLoader } from "react-spinners";
-import UserServise from "../api/UserService";
+import UserService from "../api/UserService";
 import { setUser } from '../features/user/userSlice';
 import { useFetching } from "../hooks/useFetching";
 import { isValidPassword, isValidUsername } from "../utils/functions";
 
-function LoginForm({ isCheckLoading }) {
+interface LoginFormProps {
+  isCheckLoading: boolean
+}
+
+function LoginForm({ isCheckLoading }: LoginFormProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
   const dispatch = useDispatch();
   const [fetchLogin, fetchLoading, fetchingError] = useFetching(async () => {
-    const response = await UserServise.login(username, password);
+    const response = await UserService.login(username, password);
     if (response.success === true) {
       const user = response.data;
-      dispatch(setUser({ ...user, isAuth: true }))
+      dispatch(setUser({ ...user }))
     }
   })
 
@@ -34,7 +38,7 @@ function LoginForm({ isCheckLoading }) {
     return true;
   }
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorText("");
     if (!validateInput()) return;
