@@ -57,24 +57,26 @@ function FilmsDashboard() {
   }
 
   return (
-    <div className="my-8 mx-auto">
-      <p>{filmsLoadingError}</p>
-      <div className="flex gap-4 justify-center" >
-        <button className="button" draggable={false} onClick={openAddFilmModal}>Добавить фильм</button>
-        {user.role === 'admin' && <button className="button" onClick={openRandomiseFilmModal}>Выбрать фильм</button>}
-        <button className="button" draggable={false} disabled={isFilmsLoading} onClick={() => fetchFilms(signal)}>Обновить список</button>
-      </div>
-      <ol className="flex flex-col items-start gap-4 mt-16 list-none">
-        {isFilmsLoading ?
-          <div className="block mx-auto self-center"><PuffLoader size={100} /></div>
-          :
-          filmList.length > 0 ?
-            filmList.map((film, index) => <FilmItem key={film.id} index={index} film={film} filmList={filmList} setFilmList={setFilmList} />)
+    <div className='p-6 mb-auto bg-neutral-50 rounded-xl shadow-md'>
+      <div className="my-8 mx-auto">
+        <p>{filmsLoadingError}</p>
+        <div className="flex gap-4 justify-center" >
+          <button className="button" draggable={false} onClick={openAddFilmModal}>Добавить фильм</button>
+          {user.role === 'admin' && <button className="button" onClick={openRandomiseFilmModal}>Выбрать фильм</button>}
+          <button className="button" draggable={false} disabled={isFilmsLoading} onClick={() => fetchFilms(signal)}>Обновить список</button>
+        </div>
+        <ol className="flex flex-col items-start gap-4 mt-16 list-none">
+          {isFilmsLoading ?
+            <div className="block mx-auto self-center"><PuffLoader size={100} /></div>
             :
-            <p className="w-full text-center text">Список пуст и это очень грустно :-\ Добавь скорее фильм</p>
-        }
-      </ol>
-      <Modal ref={modalref} closeModal={closeModal}>{modalContent}</Modal>
+            filmList.length > 0 ?
+              filmList.map((film, index) => <FilmItem key={film.id} index={index} film={film} filmList={filmList} setFilmList={setFilmList} />)
+              :
+              <p className="w-full text-center text">Список пуст и это очень грустно :-\ Добавь скорее фильм</p>
+          }
+        </ol>
+        <Modal ref={modalref} closeModal={closeModal}>{modalContent}</Modal>
+      </div>
     </div>
   )
 }
