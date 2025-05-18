@@ -1,6 +1,6 @@
 import UserService from "../api/UserService";
 import { initialUser, selectUser, setUser } from "../features/user/userSlice";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../store/withTypes";
 import { useFetching } from "../hooks/useFetching";
 
 function Header() {

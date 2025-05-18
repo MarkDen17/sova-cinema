@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router"
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../store/withTypes";
 import { selectUser } from "../features/user/userSlice";
 
 interface ProtectedRouteProps {

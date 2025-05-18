@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import FilmService from '../api/FilmService';
 import { selectUser } from "../features/user/userSlice";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../store/withTypes";
 import { useFetching } from "../hooks/useFetching";
 import AddFilmModal from "./AddFilmModal";
 import FilmItem from "./FilmItem";
