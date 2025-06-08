@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../utils/constansts";
 import { UserState } from "../user/userSlice";
+import { Film } from "../../components/FilmsDashboard";
 
 interface CheckAuthResponse {
   success: boolean;
@@ -22,9 +23,25 @@ interface LoginData {
   password: string;
 }
 
+export interface GetFilmsResponse {
+  success: boolean;
+  data: Film[];
+}
+
+interface AddFilmResponse {
+  success: boolean;
+  data: Film;
+}
+
+interface DeleteFilmResponse {
+  success: boolean;
+  data: Film;
+}
+
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/api` }),
+  tagTypes: ['Films'],
   endpoints: (builder) => ({
     checkLogin: builder.query<CheckAuthResponse, void>({
       query: () => "/login.php",
@@ -42,7 +59,29 @@ export const apiSlice = createApi({
         method: "GET",
       })
     }),
+    getFilms: builder.query<GetFilmsResponse, void>({
+      query: () => ({
+        url: "/films.php",
+      }),
+      providesTags: ["Films"],
+    }),
+    addFilm: builder.mutation<AddFilmResponse, { title: string }>({
+      query: (filmTitle) => ({
+        url: "/films.php",
+        method: "POST",
+        body: filmTitle,
+      }),
+      invalidatesTags: ["Films"],
+    }),
+    deleteFilm: builder.mutation<DeleteFilmResponse, { id: number }>({
+      query: (id) => ({
+        url: "/films.php",
+        method: "DELETE",
+        body: id,
+      }),
+      invalidatesTags: ["Films"],
+    }),
   }),
 });
 
-export const { useCheckLoginQuery, useLoginMutation, useLogoutMutation } = apiSlice;
+export const { useCheckLoginQuery, useLoginMutation, useLogoutMutation, useGetFilmsQuery, useAddFilmMutation, useDeleteFilmMutation } = apiSlice;
