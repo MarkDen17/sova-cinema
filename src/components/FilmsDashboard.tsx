@@ -11,6 +11,7 @@ import RandomiseModal from "./RandomiseModal";
 export interface Film {
   id: number;
   title: string;
+  user_id: number;
 }
 
 function FilmsDashboard() {

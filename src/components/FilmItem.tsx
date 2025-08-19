@@ -24,7 +24,7 @@ function FilmItem({ film, index }: FilmItemProps) {
     <li className="w-full flex gap-4 items-center film-item max-w-xl">
       <span>{index + 1}. </span>
       <span className="text-ellipsis overflow-hidden whitespace-nowrap">{film.title}</span>
-      {user.role === "admin" && (
+      {(user.role === "admin" || user.id === film.user_id) && (
         <button
           className="ml-6 button ml-auto hover:bg-red-500 hover:text-neutral-100"
           draggable={false}
