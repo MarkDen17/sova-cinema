@@ -4,6 +4,7 @@ import { useGetFilmsQuery } from "../features/api/apiSlice";
 import { selectUser } from "../features/user/userSlice";
 import { useAppSelector } from "../store/withTypes";
 import AddFilmModal from "./AddFilmModal";
+import EditTitleModal from "./EditTitleModal";
 import FilmItem from "./FilmItem";
 import Modal from "./Modal";
 import RandomiseModal from "./RandomiseModal";
@@ -40,6 +41,12 @@ function FilmsDashboard() {
     modalref.current?.showModal();
   }
 
+  function openEditTitleModal(oldTitle: string, id: number) {
+    setModalContent(<EditTitleModal closeModal={closeModal} oldTitle={oldTitle} id={id}></EditTitleModal>)
+    document.documentElement.classList.add("scroll-lock");
+    modalref.current?.showModal();
+  }
+
   return (
     <div className="p-6 mb-auto bg-neutral-50 rounded-xl shadow-md">
       <div className="my-8 mx-auto">
@@ -68,7 +75,7 @@ function FilmsDashboard() {
           )}
           {!isLoading &&
             filmList.length > 0 &&
-            filmList.map((film, index) => <FilmItem key={film.id} index={index} film={film} />)}
+            filmList.map((film, index) => <FilmItem key={film.id} index={index} film={film} openEditTitleModal={openEditTitleModal} />)}
         </ol>
         <Modal ref={modalref} closeModal={closeModal}>
           {modalContent}
