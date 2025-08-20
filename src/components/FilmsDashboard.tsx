@@ -4,6 +4,7 @@ import { useGetFilmsQuery } from "../features/api/apiSlice";
 import { selectUser } from "../features/user/userSlice";
 import { useAppSelector } from "../store/withTypes";
 import AddFilmModal from "./AddFilmModal";
+import EditTitleModal from "./EditTitleModal";
 import FilmItem from "./FilmItem";
 import Modal from "./Modal";
 import RandomiseModal from "./RandomiseModal";
@@ -11,6 +12,7 @@ import RandomiseModal from "./RandomiseModal";
 export interface Film {
   id: number;
   title: string;
+  user_id: number;
 }
 
 function FilmsDashboard() {
@@ -35,6 +37,12 @@ function FilmsDashboard() {
 
   function openRandomiseFilmModal() {
     setModalContent(<RandomiseModal films={filmList} closeModal={closeModal}></RandomiseModal>);
+    document.documentElement.classList.add("scroll-lock");
+    modalref.current?.showModal();
+  }
+
+  function openEditTitleModal(oldTitle: string, id: number) {
+    setModalContent(<EditTitleModal closeModal={closeModal} oldTitle={oldTitle} id={id}></EditTitleModal>)
     document.documentElement.classList.add("scroll-lock");
     modalref.current?.showModal();
   }
@@ -67,7 +75,7 @@ function FilmsDashboard() {
           )}
           {!isLoading &&
             filmList.length > 0 &&
-            filmList.map((film, index) => <FilmItem key={film.id} index={index} film={film} />)}
+            filmList.map((film, index) => <FilmItem key={film.id} index={index} film={film} openEditTitleModal={openEditTitleModal} />)}
         </ol>
         <Modal ref={modalref} closeModal={closeModal}>
           {modalContent}

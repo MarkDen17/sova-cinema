@@ -81,7 +81,15 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Films"],
     }),
+    editTitle: builder.mutation<void, { id: number, newTitle: string }>({
+      query: ({ id, newTitle }) => ({
+        url: "/films.php",
+        method: "PATCH",
+        body: { id, newTitle },
+      }),
+      invalidatesTags: ["Films"],
+    }),
   }),
 });
 
-export const { useCheckLoginQuery, useLoginMutation, useLogoutMutation, useGetFilmsQuery, useAddFilmMutation, useDeleteFilmMutation } = apiSlice;
+export const { useCheckLoginQuery, useLoginMutation, useLogoutMutation, useGetFilmsQuery, useAddFilmMutation, useDeleteFilmMutation, useEditTitleMutation } = apiSlice;
