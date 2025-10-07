@@ -1,7 +1,7 @@
-import hatImage from '@/assets/images/hat-min.png';
 import { useEffect, useState } from "react";
 import { Film } from './FilmsDashboard';
 import { useDeleteFilmMutation } from '../features/api/apiSlice';
+import MagicHat from "./MagicHat";
 
 function randomiseItem<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -15,6 +15,7 @@ interface RandomiseModalProps {
 function RandomiseModal({ films, closeModal }: RandomiseModalProps) {
   const [randomisedFilm, setRandomisedFilm] = useState<Film | null>(null);
   const [deleteFilm, { isLoading, isError }] = useDeleteFilmMutation();
+  const [randomizationType, setRandomizatonType] = useState("magicHat");
 
   function randomiseFilm() {
     if (films.length === 0) return;
@@ -48,15 +49,18 @@ function RandomiseModal({ films, closeModal }: RandomiseModalProps) {
 
   return (
     <div>
-      <div className="relative modal-image-container">
-        {randomisedFilm && <div key={randomisedFilm.id} className="text-neutral-900 animate-film absolute top-0 w-full text-3xl text-center text-ellipsis overflow-hidden">{randomisedFilm.title}</div>}
-        <img loading="lazy" className="mt-10 modal-image" draggable="false" src={hatImage} width={798} height={409} alt="" />
-      </div>
+      {randomizationType === "magicHat" && <MagicHat randomisedFilm={randomisedFilm} />}
       <div className="min-w-lg flex justify-center gap-4 mt-4">
         {!randomisedFilm && <button className="button" onClick={randomiseFilm}>Доверится воле случая</button>}
         {randomisedFilm && <button className="button" onClick={acceptFilm} disabled={isLoading}>Да, смотрим!</button>}
         {randomisedFilm && <button className="button" onClick={randomiseFilm}>Не, ну ребят, давайте этот в другой раз</button>}
         {isError && <p className="error-text">{"Произошла ошибка"}</p>}
+      </div>
+      <div className='mt-6'>
+        <label htmlFor="randomization-type">Тип визуализации: </label>
+        <select id="randomization-type" value={randomizationType} onChange={(event) => { setRandomizatonType(event.target.value) }}>
+          <option value="wheel">Колесо</option>
+        </select>
       </div>
     </div>
   )
