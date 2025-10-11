@@ -56,7 +56,7 @@ function FilmsDashboard() {
             Добавить фильм
           </button>
           {user.role === "admin" && (
-            <button className="button" onClick={openRandomiseFilmModal}>
+            <button className="button" onClick={openRandomiseFilmModal} disabled={!filmList || filmList.length === 0}>
               Выбрать фильм
             </button>
           )}
