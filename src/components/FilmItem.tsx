@@ -30,6 +30,7 @@ function FilmItem({ film, index, openEditTitleModal }: FilmItemProps) {
           <button
             className="button aspect-square flex justify-center items-center p-2"
             onClick={() => openEditTitleModal(film.title, film.id)}
+            title="Редактировать"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -50,6 +51,7 @@ function FilmItem({ film, index, openEditTitleModal }: FilmItemProps) {
             draggable={false}
             onClick={handleClick}
             disabled={isLoading}
+            title="Удалить"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
