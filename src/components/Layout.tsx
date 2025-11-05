@@ -1,4 +1,3 @@
-import CookieConsent from "react-cookie-consent"
 import { Outlet } from "react-router"
 import Footer from "./Footer"
 import Header from "./Header"
@@ -14,7 +13,6 @@ function Layout() {
           <Outlet />
         </main>
         <Footer />
-        <CookieConsent buttonText={"Я понял и согласен"} buttonStyle={{ backgroundColor: "#f9f9f9" }}>Мы используем куки чтобы это приложение работало</CookieConsent>
       </div>
     </>
   )

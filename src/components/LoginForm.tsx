@@ -5,11 +5,14 @@ import { PuffLoader } from "react-spinners";
 import { useCheckLoginQuery, useLoginMutation } from "../features/api/apiSlice";
 import { setUser } from "../features/user/userSlice";
 import { isValidPassword, isValidUsername } from "../utils/functions";
+import CookieTerm from "./CookieTerm";
+import Cookies from "js-cookie";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
+  const [isCookieAcceped, setIsCookieAccepted] = useState(Boolean(Cookies.get("TechCookieAccepted")))
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,6 +42,10 @@ function LoginForm() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!isCookieAcceped) {
+      setErrorText("Пожалуйста, примите согласие на работу с куками");
+      return;
+    }
     setErrorText("");
     if (!validateInput()) return;
 
@@ -104,6 +111,7 @@ function LoginForm() {
           </>
         )}
       </form>
+      {!isCookieAcceped && <CookieTerm setIsCookieAccepted={setIsCookieAccepted} />}
     </div>
   );
 }
