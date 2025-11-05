@@ -133,6 +133,34 @@
   .scroll-lock {
     overflow: hidden;
   }
+
+  .checkbox {
+    display: flex;
+    aspect-ratio: 1;
+    width: 18px;
+    margin-top: 2px;
+    border: 1px solid black;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .checkbox:before {
+    content: "";
+    aspect-ratio: 1;
+    width: 100%;
+    display: none;
+    background-image: url("../../../public/check.svg");
+    background-position: center;
+    background-size: contain;
+  }
+
+  input:checked+.checkbox {
+    background-color: aliceblue;
+  }
+
+  input:checked+.checkbox::before {
+    display: block;
+  }
 }
 
 @keyframes show {
