@@ -61,7 +61,7 @@ function LoginForm() {
       <form onSubmit={handleSubmit} className="max-w-md w-screen min-w-sm flex flex-col gap-3 mt-4 mx-auto">
         <h2 className="text-3xl">Авторизация</h2>
         {isLoading ? (
-          <div className="block mx-auto mt-20">
+          <div className="block mx-auto my-20">
             <PuffLoader size={100} />
           </div>
         ) : (
