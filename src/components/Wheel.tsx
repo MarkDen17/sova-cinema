@@ -221,7 +221,7 @@ function Wheel({ randomisedFilm, films, isAnimating, setIsAnimating }: WheelProp
         <div className={`p-4 border rounded-lg bg-green-100 border-green-400 `}>
           <>
             <span className="text-lg font-semibold text-green-800 text-center">
-              Выбран фильм:{' '}
+              Победил:{' '}
             </span>
             <span className="text-green-700 text-center font-medium">
               {currentFilm.title}
