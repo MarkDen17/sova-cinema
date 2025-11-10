@@ -208,7 +208,7 @@ function Wheel({ randomisedFilm, films, isAnimating, setIsAnimating }: WheelProp
   };
 
   return (
-    <div className="flex flex-col items-center min-h-[520px]">
+    <div className="flex flex-col items-center min-h-[500px]">
       <div className="relative mb-8">
         <canvas
           ref={canvasRef}
@@ -218,7 +218,7 @@ function Wheel({ randomisedFilm, films, isAnimating, setIsAnimating }: WheelProp
         />
       </div>
       {currentFilm && !isAnimating && (
-        <div className={`p-4 border rounded-lg bg-green-100 border-green-400 `}>
+        <div className={`p-2 border rounded-lg bg-green-100 border-green-400 `}>
           <>
             <span className="text-lg font-semibold text-green-800 text-center">
               Победил:{' '}
