@@ -52,7 +52,7 @@ function AddFilmModal({ closeModal }: AddFilmModalProps) {
           Добавить
         </button>
       </div>
-      <p className="error-text">{isError && "Произошла ошибка. Пожалуйста перезагрузите страницу"}</p>
+      <p className="error-text min-h-5 mt-2">{isError && "Произошла ошибка. Пожалуйста перезагрузите страницу"}</p>
     </form>
   );
 }
