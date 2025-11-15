@@ -208,7 +208,7 @@ function Wheel({ randomisedFilm, films, isAnimating, setIsAnimating }: WheelProp
   };
 
   return (
-    <div className="flex flex-col items-center min-h-[520px]">
+    <div className="flex flex-col items-center min-h-[500px]">
       <div className="relative mb-8">
         <canvas
           ref={canvasRef}
@@ -217,19 +217,17 @@ function Wheel({ randomisedFilm, films, isAnimating, setIsAnimating }: WheelProp
           className="border rounded-full shadow-lg"
         />
       </div>
-      {currentFilm && !isAnimating ? (
-        <div className={`p-4 border rounded-lg bg-green-100 border-green-400 `}>
+      {currentFilm && !isAnimating && (
+        <div className={`p-2 border rounded-lg bg-green-100 border-green-400 `}>
           <>
-            <h3 className="text-lg font-semibold text-green-800 text-center">
-              Выбран фильм:
-            </h3>
-            <p className="text-green-700 text-center font-medium">
+            <span className="text-lg font-semibold text-green-800 text-center">
+              Победил:{' '}
+            </span>
+            <span className="text-green-700 text-center font-medium">
               {currentFilm.title}
-            </p>
+            </span>
           </>
         </div>
-      ) : (
-        <div className="invisible">placeholder</div>
       )}
     </div>
   );
