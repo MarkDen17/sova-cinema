@@ -1,4 +1,4 @@
-import { ReactElement, useMemo, useRef, useState } from "react";
+import { ReactElement, useMemo, useRef, useState, useEffect } from "react";
 import { PuffLoader } from "react-spinners";
 import { useGetFilmsQuery } from "../features/api/apiSlice";
 import { selectUser } from "../features/user/userSlice";
@@ -8,6 +8,7 @@ import EditTitleModal from "./EditTitleModal";
 import FilmItem from "./FilmItem";
 import Modal from "./Modal";
 import RandomiseModal from "./RandomiseModal";
+import { AnimatePresence, motion } from "motion/react";
 
 export interface Film {
   id: number;
@@ -20,8 +21,23 @@ function FilmsDashboard() {
   const [modalContent, setModalContent] = useState<ReactElement | null>(null);
   const modalref = useRef<HTMLDialogElement | null>(null);
   const { data: getFilmsResponse, isLoading, isError, refetch } = useGetFilmsQuery();
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const filmList = useMemo(() => (getFilmsResponse ? getFilmsResponse.data : []), [getFilmsResponse]);
+
+  // Отслеживаем завершение начальной загрузки
+  useEffect(() => {
+    if (!isLoading && filmList.length > 0 && initialLoad) {
+      setInitialLoad(false);
+    }
+  }, [isLoading, filmList.length, initialLoad]);
+
+  // Сбрасываем флаг при ошибке
+  useEffect(() => {
+    if (isError) {
+      setInitialLoad(false);
+    }
+  }, [isError]);
 
   function closeModal() {
     setModalContent(null);
@@ -42,15 +58,24 @@ function FilmsDashboard() {
   }
 
   function openEditTitleModal(oldTitle: string, id: number) {
-    setModalContent(<EditTitleModal closeModal={closeModal} oldTitle={oldTitle} id={id}></EditTitleModal>)
+    setModalContent(<EditTitleModal closeModal={closeModal} oldTitle={oldTitle} id={id}></EditTitleModal>);
     document.documentElement.classList.add("scroll-lock");
     modalref.current?.showModal();
   }
 
   return (
-    <div className="p-6 mb-auto bg-neutral-50 rounded-xl shadow-md">
+    <motion.div
+      className="p-6 mb-auto bg-neutral-50 rounded-xl shadow-md"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="my-8 mx-auto">
-        {isError && <p className="error-text my-4">"Произошла ошибка. Пожалуйста перезагрузите страницу"</p>}
+        {isError && (
+          <motion.p className="error-text my-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            "Произошла ошибка. Пожалуйста перезагрузите страницу"
+          </motion.p>
+        )}
         <div className="flex gap-4 justify-center">
           <button className="button" draggable={false} onClick={openAddFilmModal}>
             Добавить фильм
@@ -64,24 +89,43 @@ function FilmsDashboard() {
             Обновить список
           </button>
         </div>
-        <ol className="flex flex-col items-start gap-4 mt-16 list-none">
-          {isLoading && (
-            <div className="block mx-auto self-center">
-              <PuffLoader size={100} />
-            </div>
-          )}
-          {!isLoading && !isError && filmList.length === 0 && (
-            <p className="w-full text-center text">Список пуст и это очень грустно :-\ Добавь скорее фильм</p>
-          )}
-          {!isLoading &&
-            filmList.length > 0 &&
-            filmList.map((film, index) => <FilmItem key={film.id} index={index} film={film} openEditTitleModal={openEditTitleModal} />)}
-        </ol>
+        <motion.ol layout className="flex flex-col items-start gap-4 mt-16 list-none">
+          <AnimatePresence mode="popLayout">
+            {isLoading && (
+              <motion.div
+                className="block mx-auto self-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <PuffLoader size={100} />
+              </motion.div>
+            )}
+
+            {!isLoading && !isError && filmList.length === 0 && (
+              <motion.p
+                className="w-full text-center text"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+              >
+                Список пуст и это очень грустно :-\ Добавь скорее фильм
+              </motion.p>
+            )}
+
+            {!isLoading &&
+              filmList.length > 0 &&
+              filmList.map((film, index) => (
+                <FilmItem key={film.id} index={index} film={film} openEditTitleModal={openEditTitleModal} animateEntry={!initialLoad} />
+              ))}
+          </AnimatePresence>
+        </motion.ol>
+
         <Modal ref={modalref} closeModal={closeModal}>
           {modalContent}
         </Modal>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
