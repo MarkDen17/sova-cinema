@@ -1,7 +1,7 @@
 {
   "name": "sovacinema.json",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.6.0",
   "type": "module",
   "scripts": {
     "dev": "vite --port 3001 --open",
@@ -12,8 +12,9 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.7.0",
     "@tailwindcss/vite": "^4.0.15",
+    "js-cookie": "^3.0.5",
+    "motion": "^12.23.24",
     "react": "^19.0.0",
-    "react-cookie-consent": "^9.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-router": "^7.5.3",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
